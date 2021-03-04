@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="172fdfc8-4e89-4417-8b9c-a4c13c1f6acd" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="voiceautomatedFlow" doc:id="47c8cea0-34b9-449b-af29-e15df5e29cd8" >
+		<http:listener doc:name="Listener" doc:id="6555345e-1e12-4c7e-a718-0797a06d9083" config-ref="HTTP_Listener_config" path="/testdemo"/>
+		<ee:transform doc:name="Transform Message" doc:id="abd9cb5a-cd52-4c7d-a334-902c02fe8e67" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+"Hello world"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="a12dcce7-f811-4e81-b72f-c58e61eb7bc5" message="#[payload]"/>
+	</flow>
+</mule>
